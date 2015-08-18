@@ -1,0 +1,199 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Gcm-svn] r4 - trunk/concept
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/gcm-svn/2006-August/index.html" >
+   <LINK REL="made" HREF="mailto:gcm-svn%40lists.berlios.de?Subject=Re%3A%20%5BGcm-svn%5D%20r4%20-%20trunk/concept&In-Reply-To=%3C200608281808.k7SI8hLR031696%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000001.html">
+   <LINK REL="Next"  HREF="000003.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Gcm-svn] r4 - trunk/concept</H1>
+    <B>slalomsk8er at BerliOS</B> 
+    <A HREF="mailto:gcm-svn%40lists.berlios.de?Subject=Re%3A%20%5BGcm-svn%5D%20r4%20-%20trunk/concept&In-Reply-To=%3C200608281808.k7SI8hLR031696%40sheep.berlios.de%3E"
+       TITLE="[Gcm-svn] r4 - trunk/concept">slalomsk8er at mail.berlios.de
+       </A><BR>
+    <I>Mon Aug 28 20:08:43 CEST 2006</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000001.html">[Gcm-svn] r3 - trunk/concept
+</A></li>
+        <LI>Next message: <A HREF="000003.html">[Gcm-svn] r5 - trunk/concept
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#2">[ date ]</a>
+              <a href="thread.html#2">[ thread ]</a>
+              <a href="subject.html#2">[ subject ]</a>
+              <a href="author.html#2">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: slalomsk8er
+Date: 2006-08-28 20:08:35 +0200 (Mon, 28 Aug 2006)
+New Revision: 4
+
+Modified:
+   trunk/concept/internals.xml
+Log:
+more work on the xml
+
+Modified: trunk/concept/internals.xml
+===================================================================
+--- trunk/concept/internals.xml	2006-08-25 12:56:12 UTC (rev 3)
++++ trunk/concept/internals.xml	2006-08-28 18:08:35 UTC (rev 4)
+@@ -1,6 +1,25 @@
+ &lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+ 
+-&lt;!-- This file is part of the GNU Config Management projekt and defines the abstract internal data structure.
++&lt;!-- This file is part of the GNU Config Management projekt.
++It is a draft of the abstract internal data structure of configuration.
++
++A configuration is a set of rules, values, commands and data about ONE
++configuration file of a program. As example this draft is about
++the xorg.conf because it is a relative complex configuration file.
++But it is NOT about the configuration of the Xorg program as there
++are other configuration files like the rgb.txt that have nothing to 
++do with this configuration but are still vital to the configuration
++of the program it self.
++
++This makes it clear that the GCM tree will have more then one
++configuration for some of the installed packages and even need
++to support more then one set of configurations for one programm
++as it is possible to have more then one version of a program 
++
++The duplication in the internals and recipe files ar intentional
++as it is possible that a recipe file gets deleted or the installation
++of a newer programm version overwrites your values.
++
+ Copyright (C) 2006  Dominik Riva
+ 
+ This library is free software; you can redistribute it and/or
+@@ -22,23 +41,28 @@
+                xsi:schemaLocation=&quot;<A HREF="http://gcm.berlios.de/configuration">http://gcm.berlios.de/configuration</A> 
+                                    <A HREF="http://gcm.berlios.de/configuration.xsd">http://gcm.berlios.de/configuration.xsd</A>&quot;&gt;
+ 
+-        &lt;locations&gt;/xorg.conf;/etc/xorg.conf;/etc/X11/xorg.conf&lt;/locations&gt;
+-        &lt;per_usr_location&gt;&lt;!-- like ~/.fonts.conf that can be set per user --&gt;&lt;/per_usr_location&gt;
+-
+-        &lt;config_depend&gt;&lt;!-- installed XServer and or higher order config (Apache has this) --&gt;&lt;/config_depend&gt;
+-        
++        &lt;!-- The Identifier of this keyset --&gt;
++        &lt;name&gt;xorg-x11-7.0-r1&lt;/name&gt;
++        &lt;!-- The Title that is presented to the user --&gt;
++        &lt;title&gt;Configuration File for X&lt;/title&gt;
++        &lt;!-- The meta can be used to give informations that are optional like email of dev, credits, bugzilla location ... --&gt;
++        &lt;meta name=&quot;&quot; value=&quot;&quot;/&gt; &lt;!-- as much as you like --&gt;
++        &lt;!-- The next 3 lines will help us to find all config files of this configuration in the system and find the one that is active --&gt;
++        &lt;names&gt;xorg.conf.$HOSTNAME;xorg.conf-4;xorg.conf;$XORGCONFIG;XF86Config-4;XF86Config&lt;/names&gt;&lt;!-- imported from the GCM xorg.conf recipe file (in order of precedence) --&gt;
++        &lt;locations&gt;/etc/X11/;/usr/etc/X11/;/;$HOME/;/etc/;/usr/lib/X11/&lt;/locations&gt;&lt;!-- imported from the GCM xorg.conf recipe file (in order of precedence) --&gt;
++        &lt;perusrlocation&gt;$HOME;$HOME/.X11/&lt;/per_usr_location&gt;&lt;!-- imported from the GCM xorg.conf recipe file (in order of precedence) --&gt;
++        &lt;!-- Sanity check to help us catching errors by configure the wrong versions with the right values --&gt;
++        &lt;configdepend&gt;&gt;x11-base/xorg-x11-7.0-r1;!=x11-base/xorg-x11-7.0-r2;&lt;x11-base/xorg-x11-7.0-r2&lt;/config_depend&gt;&lt;!-- &gt;, =, &lt; and != can be used to mask packages --&gt;
++                &lt;!-- ATTENTION: we need to find a way to make this independent of the package manager set in the gcm.conf!!! the above is gentoo syntax --&gt;
++        &lt;!-- The command used to activate the a changed configuration (no reboot is not a option on linux exept for the kernel it self ;) )  --&gt;
+         &lt;activate&gt;/etc/init.d/xdm restart&lt;/activate&gt;
+-
+-        &lt;!-- &lt;sections&gt;ServerLayout; This belongs in to the GCM xorg.conf recipe file!
+-                  Files;
+-                  Module;
+-                  InputDevice; 
+-                  Monitor;
+-                  Device;
+-                  Screen;
+-                  DRI&lt;/sections&gt; --&gt;
+-
+-        &lt;section name=&quot;ServerLayout&quot;&gt; &lt;!-- Sections are optional (depending on configuration typ) --&gt;
++        &lt;!-- Some configuration files have sections so we need to have them too
++        for maximum flexibility sections can have all the things a key has but
++        they can be used to mirror tree like configuration files --&gt;
++        &lt;section name=&quot;ServerLayout&quot; id=&quot;0&quot;&gt; &lt;!-- Sections are optional (depending on configuration typ) --&gt;
++                &lt;!-- Keys overwrite the rights of a section it would be a good option to have a recursive &quot;set rights on section&quot; function
++                the type property is importand for programms that like to use GCM direct to store there config
++                would it be a good choice to move the rights management out of the key properties so I can comment on them with out a syntax error? --&gt;
+                 &lt;key basename=&quot;Identifier&quot;
+                      type=&quot;ASCII string&quot;
+                      length_unit=&quot;characters&quot;
+@@ -55,32 +79,39 @@
+                      b_w_users=&quot;luser1&quot;
+                      b_r_groups=&quot;lusers&quot; &lt;!-- blacklist groups --&gt;
+                      b_w_groups=&quot;lusers&quot;&gt;
+-                        &lt;doku&gt;
++                        &lt;docu&gt;
+                                 &lt;link uri=&quot;/usr/share/man/man5/xorg.conf.5x.gz&quot; openwith=&quot;man&quot; lang=&quot;&quot;&gt;xorg.conf Manpage&lt;/link&gt;
+                                 &lt;tooltip lang=&quot;en&quot;&gt;This value does not realy matter ;)&lt;/tooltip&gt;
+                                 &lt;comment lang=&quot;en&quot;&gt;&lt;/comment&gt;
+                                 &lt;usercomment lang=&quot;en&quot;&gt;I like to call this X&lt;/usercomment&gt;
+-                        &lt;/doku&gt;
++                        &lt;/docu&gt;
+ 
+-                        &lt;meta name=&quot;&quot; value=&quot;&quot;/&gt; &lt;!-- as much as you like--&gt;
++                        &lt;meta name=&quot;&quot; value=&quot;&quot;/&gt; &lt;!-- as much as you like --&gt;
+                         &lt;meta name=&quot;&quot; value=&quot;&quot;/&gt;
+                         &lt;meta name=&quot;&quot; value=&quot;&quot;/&gt;
+ 
+-                        &lt;defaultvalue active=&quot;yes&quot;&gt;Configured Xorg Server&lt;/defaultvalue&gt; 
+-                        &lt;value type=&quot;ASCII string&quot; &lt;!-- a key can have more then one value block.
+-                                                        The values are separated with a char or string defined in the recipe XML.
+-                                                        If no attributes are given the global of the key are used. --&gt;
++                        &lt;defaultvalue active=&quot;yes&quot; ids=&quot;1&quot; /&gt; 
++                        &lt;!-- a key can have more then one value block marked as active.
++                        The values are separated with a char or string defined in the recipe XML.
++                        If no attributes are given the globals of the key are used. --&gt;
++                        &lt;value type=&quot;ASCII string&quot;
+                      	       length_unit=&quot;characters&quot;
+                                min_length=&quot;1&quot;
+-                               max_length=&quot;32&quot;&gt;&lt;/value&gt;
+-                        &lt;value&gt;&lt;/value&gt;
+-	                        &lt;doku&gt;
++                               max_length=&quot;32&quot;
++                               id=&quot;0&quot;
++                               index=&quot;20&quot;&gt;&lt;/value&gt;
++                        &lt;!-- The index property is used to define the order of the keys (they are relative not absolut)
++                        IDs are used to address a key or section internal in the format of 0.2 for this one
++                        this requires that IDs are unique inside of a section or key --&gt;
++                        &lt;value id=&quot;1&quot; index=&quot;10&quot;&gt;Configured Xorg Server&lt;/value&gt;
++	                        &lt;!-- Docu with out a id property is docu about the key or section it self else it is about value with the matching number property--&gt;
++	                        &lt;docu id=&quot;1&quot;&gt;
+ 	                                &lt;link uri=&quot;/usr/share/man/man5/xorg.conf.5x.gz&quot; openwith=&quot;man&quot; lang=&quot;&quot;&gt;xorg.conf Manpage&lt;/link&gt;
+ 	                                &lt;tooltip lang=&quot;&quot;&gt;This value does not realy matter ;)&lt;/tooltip&gt;
+ 	                                &lt;comment lang=&quot;&quot;&gt;&lt;/comment&gt;
++	                                &lt;configcomment&gt;&lt;/configcomment&gt;&lt;!-- comment from the original configuration file --&gt;
+ 	                                &lt;usercomment lang=&quot;&quot;&gt;I like to call this X&lt;/usercomment&gt;
+-	                        &lt;/doku&gt;
+-                        &lt;value&gt;&lt;/value&gt;
++	                        &lt;/docu&gt;
+                 &lt;/key&gt;
+         &lt;/section&gt;
+ 
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000001.html">[Gcm-svn] r3 - trunk/concept
+</A></li>
+	<LI>Next message: <A HREF="000003.html">[Gcm-svn] r5 - trunk/concept
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#2">[ date ]</a>
+              <a href="thread.html#2">[ thread ]</a>
+              <a href="subject.html#2">[ subject ]</a>
+              <a href="author.html#2">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/gcm-svn">More information about the Gcm-svn
+mailing list</a><br>
+</body></html>

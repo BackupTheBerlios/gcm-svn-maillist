@@ -1,0 +1,98 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Gcm-svn] r3 - trunk/concept
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/gcm-svn/2006-August/index.html" >
+   <LINK REL="made" HREF="mailto:gcm-svn%40lists.berlios.de?Subject=Re%3A%20%5BGcm-svn%5D%20r3%20-%20trunk/concept&In-Reply-To=%3C200608251256.k7PCuG5t022393%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   
+   <LINK REL="Next"  HREF="000002.html">
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Gcm-svn] r3 - trunk/concept</H1>
+    <B>slalomsk8er at BerliOS</B> 
+    <A HREF="mailto:gcm-svn%40lists.berlios.de?Subject=Re%3A%20%5BGcm-svn%5D%20r3%20-%20trunk/concept&In-Reply-To=%3C200608251256.k7PCuG5t022393%40sheep.berlios.de%3E"
+       TITLE="[Gcm-svn] r3 - trunk/concept">slalomsk8er at mail.berlios.de
+       </A><BR>
+    <I>Fri Aug 25 14:56:16 CEST 2006</I>
+    <P><UL>
+        
+        <LI>Next message: <A HREF="000002.html">[Gcm-svn] r4 - trunk/concept
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#1">[ date ]</a>
+              <a href="thread.html#1">[ thread ]</a>
+              <a href="subject.html#1">[ subject ]</a>
+              <a href="author.html#1">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: slalomsk8er
+Date: 2006-08-25 14:56:12 +0200 (Fri, 25 Aug 2006)
+New Revision: 3
+
+Modified:
+   trunk/concept/internals.xml
+Log:
+more work on the xml
+
+Modified: trunk/concept/internals.xml
+===================================================================
+--- trunk/concept/internals.xml	2006-07-19 10:58:00 UTC (rev 2)
++++ trunk/concept/internals.xml	2006-08-25 12:56:12 UTC (rev 3)
+@@ -23,8 +23,11 @@
+                                    <A HREF="http://gcm.berlios.de/configuration.xsd">http://gcm.berlios.de/configuration.xsd</A>&quot;&gt;
+ 
+         &lt;locations&gt;/xorg.conf;/etc/xorg.conf;/etc/X11/xorg.conf&lt;/locations&gt;
++        &lt;per_usr_location&gt;&lt;!-- like ~/.fonts.conf that can be set per user --&gt;&lt;/per_usr_location&gt;
+ 
+         &lt;config_depend&gt;&lt;!-- installed XServer and or higher order config (Apache has this) --&gt;&lt;/config_depend&gt;
++        
++        &lt;activate&gt;/etc/init.d/xdm restart&lt;/activate&gt;
+ 
+         &lt;!-- &lt;sections&gt;ServerLayout; This belongs in to the GCM xorg.conf recipe file!
+                   Files;
+@@ -54,9 +57,9 @@
+                      b_w_groups=&quot;lusers&quot;&gt;
+                         &lt;doku&gt;
+                                 &lt;link uri=&quot;/usr/share/man/man5/xorg.conf.5x.gz&quot; openwith=&quot;man&quot; lang=&quot;&quot;&gt;xorg.conf Manpage&lt;/link&gt;
+-                                &lt;tooltip lang=&quot;&quot;&gt;This value does not realy matter ;)&lt;/tooltip&gt;
+-                                &lt;comment lang=&quot;&quot;&gt;&lt;/comment&gt;
+-                                &lt;usercomment lang=&quot;&quot;&gt;I like to call this X&lt;/usercomment&gt;
++                                &lt;tooltip lang=&quot;en&quot;&gt;This value does not realy matter ;)&lt;/tooltip&gt;
++                                &lt;comment lang=&quot;en&quot;&gt;&lt;/comment&gt;
++                                &lt;usercomment lang=&quot;en&quot;&gt;I like to call this X&lt;/usercomment&gt;
+                         &lt;/doku&gt;
+ 
+                         &lt;meta name=&quot;&quot; value=&quot;&quot;/&gt; &lt;!-- as much as you like--&gt;
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	
+	<LI>Next message: <A HREF="000002.html">[Gcm-svn] r4 - trunk/concept
+</A></li>
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#1">[ date ]</a>
+              <a href="thread.html#1">[ thread ]</a>
+              <a href="subject.html#1">[ subject ]</a>
+              <a href="author.html#1">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/gcm-svn">More information about the Gcm-svn
+mailing list</a><br>
+</body></html>

@@ -1,0 +1,184 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Gcm-svn] r5 - trunk/concept
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/gcm-svn/2006-August/index.html" >
+   <LINK REL="made" HREF="mailto:gcm-svn%40lists.berlios.de?Subject=Re%3A%20%5BGcm-svn%5D%20r5%20-%20trunk/concept&In-Reply-To=%3C200608281813.k7SIDgc6001531%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   <LINK REL="Previous"  HREF="000002.html">
+   
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Gcm-svn] r5 - trunk/concept</H1>
+    <B>slalomsk8er at BerliOS</B> 
+    <A HREF="mailto:gcm-svn%40lists.berlios.de?Subject=Re%3A%20%5BGcm-svn%5D%20r5%20-%20trunk/concept&In-Reply-To=%3C200608281813.k7SIDgc6001531%40sheep.berlios.de%3E"
+       TITLE="[Gcm-svn] r5 - trunk/concept">slalomsk8er at mail.berlios.de
+       </A><BR>
+    <I>Mon Aug 28 20:13:42 CEST 2006</I>
+    <P><UL>
+        <LI>Previous message: <A HREF="000002.html">[Gcm-svn] r4 - trunk/concept
+</A></li>
+        
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#3">[ date ]</a>
+              <a href="thread.html#3">[ thread ]</a>
+              <a href="subject.html#3">[ subject ]</a>
+              <a href="author.html#3">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: slalomsk8er
+Date: 2006-08-28 20:13:40 +0200 (Mon, 28 Aug 2006)
+New Revision: 5
+
+Added:
+   trunk/concept/xorg.recipe.xml
+Log:
+more work on the xml
+
+Added: trunk/concept/xorg.recipe.xml
+===================================================================
+--- trunk/concept/xorg.recipe.xml	2006-08-28 18:08:35 UTC (rev 4)
++++ trunk/concept/xorg.recipe.xml	2006-08-28 18:13:40 UTC (rev 5)
+@@ -0,0 +1,110 @@
++&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
++
++&lt;!-- This file is part of the GNU Config Management projekt.
++It is a draft of the recipe file with the xorg.conf as example.
++
++Recipe files are needed to allow a more generic parser and give 
++information for sanity checks, possible values of a key or section
++plus here is the location of the the docu comments and links to
++externel docu resources. This files are relative static compared to the
++internals.xml as there is no &quot;normal&quot; user expected to work with them.
++
++It is a goal to merge this information in to the actual configuration
++file of a programm if the user or distributor likes it that way.
++Motivation of this is that the additional information like docu and URLs
++can be found inside the configuration file a user is editing.
++I hope this makes it easy for devs to play with the gcm recipe
++information and then export it to a xyz.gcm.xml for distribution.
++
++
++Copyright (C) 2006  Dominik Riva
++
++This library is free software; you can redistribute it and/or
++modify it under the terms of the GNU Lesser General Public
++License as published by the Free Software Foundation; either
++version 2.1 of the License, or (at your option) any later version.
++
++This library is distributed in the hope that it will be useful,
++but WITHOUT ANY WARRANTY; without even the implied warranty of
++MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++Lesser General Public License for more details.
++
++You should have received a copy of the GNU Lesser General Public
++License along with this library; if not, write to the Free Software
++Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA --&gt;
++
++&lt;recipe xmlns=&quot;<A HREF="http://gcm.berlios.de/recipe">http://gcm.berlios.de/recipe</A>&quot;
++               xmlns:xsi=&quot;<A HREF="http://www.w3.org/2001/XMLSchema-instance">http://www.w3.org/2001/XMLSchema-instance</A>&quot;
++               xsi:schemaLocation=&quot;<A HREF="http://gcm.berlios.de/recipe">http://gcm.berlios.de/recipe</A> 
++                                   <A HREF="http://gcm.berlios.de/recipe.xsd">http://gcm.berlios.de/recipe.xsd</A>&quot;&gt;
++
++        &lt;!-- The Identifier of this keyset --&gt;
++        &lt;name&gt;xorg-x11-7.0-r1&lt;/name&gt;
++        &lt;!-- The Title that is presented to the user --&gt;
++        &lt;title&gt;Configuration File for X&lt;/title&gt;
++        &lt;!-- The meta can be used to give informations that are optional like email of dev, credits, bugzilla location ... --&gt;
++        &lt;meta key=&quot;&quot; value=&quot;&quot; /&gt; &lt;!-- as much as you like --&gt;
++        &lt;!-- The next 3 lines will help us to find all config files of this configuration in the system and find the one that is active --&gt;
++        &lt;names&gt;xorg.conf.$HOSTNAME;xorg.conf-4;xorg.conf;$XORGCONFIG;XF86Config-4;XF86Config&lt;/names&gt;&lt;!-- &quot;self&quot; if the programm uses GCM direct to store it's config (in order of precedence) --&gt;
++        &lt;locations&gt;/etc/X11/;/usr/etc/X11/;/;$HOME/;/etc/;/usr/lib/X11/&lt;/locations&gt;&lt;!-- not needed if names has the value of &quot;self&quot; (in order of precedence) --&gt;
++        &lt;perusrlocation&gt;$HOME;$HOME/.X11/&lt;/per_usr_location&gt;&lt;!-- imported from the GCM xorg.conf recipe file (in order of precedence) --&gt;
++        &lt;!-- Sanity check to help us catching errors by configure the wrong versions with the right values --&gt;
++        &lt;configdepend&gt;&gt;x11-base/xorg-x11-7.0-r1;!=x11-base/xorg-x11-7.0-r2;&lt;x11-base/xorg-x11-7.0-r2&lt;/config_depend&gt;&lt;!-- &gt;, =, &lt; and != can be used to mask packages --&gt;
++                &lt;!-- ATTENTION: we need to find a way to make this independent of the package manager set in the gcm.conf!!! the above is gentoo syntax --&gt;
++        &lt;!-- The command used to activate the a changed configuration (no reboot is not a option on linux exept for the kernel it self ;) )  --&gt;
++        &lt;activate&gt;/etc/init.d/xdm restart&lt;/activate&gt;
++        &lt;!-- There can be more then one sections block --&gt;
++        &lt;sections importance=&quot;required&quot;&gt;ServerLayout;Files;Module;InputDevice;Monitor;Device;Screen;DRI&lt;/sections&gt;
++        &lt;!-- This is the way to define the dependencies of a section --&gt;
++        &lt;!-- index == default order
++        levels == can or must it be in a section or not or both --&gt;
++        &lt;section name=&quot;ServerLayout&quot; id=&quot;0&quot;
++                index=&quot;0&quot;
++                levels=&quot;0&quot;
++                depends_on=&quot;section.badexample&quot;
++                type=&quot;ASCII string&quot;
++                length_unit=&quot;characters&quot;
++                min_length=&quot;1&quot;
++                max_length=&quot;32&quot;&gt;
++                &lt;requires name=&quot;Identifier&quot; type=&quot;key&quot; /&gt;
++                &lt;requires name=&quot;Screen&quot; type=&quot;key&quot; /&gt;
++                &lt;requires name=&quot;InputDevice&quot; type=&quot;key&quot; /&gt;
++                &lt;requires regex=&quot;&quot; /&gt; &lt;!-- a mighty tool if implemented but not intuitive but this is for devs not users so who cares ;) --&gt;
++                &lt;illegal type=&quot;section&quot; /&gt; &lt;!-- can be used to prevent common mistakes (a more spesivic &lt;requires&gt; will overwrite this the same level needs to rise a error)--&gt;
++                &lt;illegal regex=&quot;&quot; /&gt;
++                &lt;illegal name=&quot;Monitor&quot; type=&quot;key&quot; /&gt;
++                &lt;docu&gt;
++	               &lt;link uri=&quot;/usr/share/man/man5/xorg.conf.5x.gz&quot; openwith=&quot;man&quot; lang=&quot;&quot;&gt;xorg.conf Manpage&lt;/link&gt;
++	               &lt;tooltip lang=&quot;&quot;&gt;This value does not realy matter ;)&lt;/tooltip&gt;
++	               &lt;comment lang=&quot;&quot;&gt;&lt;/comment&gt;
++	        &lt;/docu&gt;
++        &lt;/section&gt;
++        &lt;!-- how to handle more then one key with the same name in a config file (can happen in configs with sections)?
++        if a config has more then one key with the same name but not the same patern they are insane ;) --&gt;
++        &lt;key name=&quot;Screen&quot;
++                index=&quot;0&quot;
++                levels=&quot;1&quot;
++                depends_on=&quot;section.Screen&quot;
++                type=&quot;ASCII string&quot;
++                length_unit=&quot;characters&quot;
++                min_length=&quot;1&quot;
++                max_length=&quot;32&quot;&gt;
++                &lt;requires value_contains=&quot;section.Screen.Identifier&quot; /&gt; &lt;!-- value[_contains|_smaller|_equals|_greater]--&gt;
++                &lt;requires regex=&quot;&quot; /&gt; &lt;!-- check for legal email or ip address formats and the likes --&gt;
++                &lt;illegal regex=&quot;&quot; /&gt;
++                &lt;docu&gt;
++	               &lt;link uri=&quot;/usr/share/man/man5/xorg.conf.5x.gz&quot; openwith=&quot;man&quot; lang=&quot;&quot;&gt;xorg.conf Manpage&lt;/link&gt;
++	               &lt;tooltip lang=&quot;&quot;&gt;This value does not realy matter ;)&lt;/tooltip&gt;
++	               &lt;comment lang=&quot;&quot;&gt;&lt;/comment&gt;
++	        &lt;/docu&gt;
++	        &lt;defaultvalue ids=&quot;0&quot; /&gt;
++	        &lt;value id=&quot;0&quot;&gt;my screen&lt;/value&gt;
++		        &lt;docu id=&quot;0&quot;&gt;
++		               &lt;link uri=&quot;/usr/share/man/man5/xorg.conf.5x.gz&quot; openwith=&quot;man&quot; lang=&quot;&quot;&gt;xorg.conf Manpage&lt;/link&gt;
++		               &lt;tooltip lang=&quot;&quot;&gt;This value does not realy matter ;)&lt;/tooltip&gt;
++		               &lt;comment lang=&quot;&quot;&gt;&lt;/comment&gt;
++		        &lt;/docu&gt;
++        &lt;/key&gt;
++        
++        &lt;parse&gt;&lt;/parse&gt;
++&lt;/recipe&gt;
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	<LI>Previous message: <A HREF="000002.html">[Gcm-svn] r4 - trunk/concept
+</A></li>
+	
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#3">[ date ]</a>
+              <a href="thread.html#3">[ thread ]</a>
+              <a href="subject.html#3">[ subject ]</a>
+              <a href="author.html#3">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/gcm-svn">More information about the Gcm-svn
+mailing list</a><br>
+</body></html>

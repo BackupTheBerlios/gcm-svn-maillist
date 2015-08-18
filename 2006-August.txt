@@ -1,0 +1,326 @@
+From slalomsk8er at mail.berlios.de  Fri Aug 25 14:56:16 2006
+From: slalomsk8er at mail.berlios.de (slalomsk8er at BerliOS)
+Date: Fri, 25 Aug 2006 14:56:16 +0200
+Subject: [Gcm-svn] r3 - trunk/concept
+Message-ID: <200608251256.k7PCuG5t022393@sheep.berlios.de>
+
+Author: slalomsk8er
+Date: 2006-08-25 14:56:12 +0200 (Fri, 25 Aug 2006)
+New Revision: 3
+
+Modified:
+   trunk/concept/internals.xml
+Log:
+more work on the xml
+
+Modified: trunk/concept/internals.xml
+===================================================================
+--- trunk/concept/internals.xml	2006-07-19 10:58:00 UTC (rev 2)
++++ trunk/concept/internals.xml	2006-08-25 12:56:12 UTC (rev 3)
+@@ -23,8 +23,11 @@
+                                    http://gcm.berlios.de/configuration.xsd">
+ 
+         <locations>/xorg.conf;/etc/xorg.conf;/etc/X11/xorg.conf</locations>
++        <per_usr_location><!-- like ~/.fonts.conf that can be set per user --></per_usr_location>
+ 
+         <config_depend><!-- installed XServer and or higher order config (Apache has this) --></config_depend>
++        
++        <activate>/etc/init.d/xdm restart</activate>
+ 
+         <!-- <sections>ServerLayout; This belongs in to the GCM xorg.conf recipe file!
+                   Files;
+@@ -54,9 +57,9 @@
+                      b_w_groups="lusers">
+                         <doku>
+                                 <link uri="/usr/share/man/man5/xorg.conf.5x.gz" openwith="man" lang="">xorg.conf Manpage</link>
+-                                <tooltip lang="">This value does not realy matter ;)</tooltip>
+-                                <comment lang=""></comment>
+-                                <usercomment lang="">I like to call this X</usercomment>
++                                <tooltip lang="en">This value does not realy matter ;)</tooltip>
++                                <comment lang="en"></comment>
++                                <usercomment lang="en">I like to call this X</usercomment>
+                         </doku>
+ 
+                         <meta name="" value=""/> <!-- as much as you like-->
+
+
+
+From slalomsk8er at mail.berlios.de  Mon Aug 28 20:08:43 2006
+From: slalomsk8er at mail.berlios.de (slalomsk8er at BerliOS)
+Date: Mon, 28 Aug 2006 20:08:43 +0200
+Subject: [Gcm-svn] r4 - trunk/concept
+Message-ID: <200608281808.k7SI8hLR031696@sheep.berlios.de>
+
+Author: slalomsk8er
+Date: 2006-08-28 20:08:35 +0200 (Mon, 28 Aug 2006)
+New Revision: 4
+
+Modified:
+   trunk/concept/internals.xml
+Log:
+more work on the xml
+
+Modified: trunk/concept/internals.xml
+===================================================================
+--- trunk/concept/internals.xml	2006-08-25 12:56:12 UTC (rev 3)
++++ trunk/concept/internals.xml	2006-08-28 18:08:35 UTC (rev 4)
+@@ -1,6 +1,25 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+ 
+-<!-- This file is part of the GNU Config Management projekt and defines the abstract internal data structure.
++<!-- This file is part of the GNU Config Management projekt.
++It is a draft of the abstract internal data structure of configuration.
++
++A configuration is a set of rules, values, commands and data about ONE
++configuration file of a program. As example this draft is about
++the xorg.conf because it is a relative complex configuration file.
++But it is NOT about the configuration of the Xorg program as there
++are other configuration files like the rgb.txt that have nothing to 
++do with this configuration but are still vital to the configuration
++of the program it self.
++
++This makes it clear that the GCM tree will have more then one
++configuration for some of the installed packages and even need
++to support more then one set of configurations for one programm
++as it is possible to have more then one version of a program 
++
++The duplication in the internals and recipe files ar intentional
++as it is possible that a recipe file gets deleted or the installation
++of a newer programm version overwrites your values.
++
+ Copyright (C) 2006  Dominik Riva
+ 
+ This library is free software; you can redistribute it and/or
+@@ -22,23 +41,28 @@
+                xsi:schemaLocation="http://gcm.berlios.de/configuration 
+                                    http://gcm.berlios.de/configuration.xsd">
+ 
+-        <locations>/xorg.conf;/etc/xorg.conf;/etc/X11/xorg.conf</locations>
+-        <per_usr_location><!-- like ~/.fonts.conf that can be set per user --></per_usr_location>
+-
+-        <config_depend><!-- installed XServer and or higher order config (Apache has this) --></config_depend>
+-        
++        <!-- The Identifier of this keyset -->
++        <name>xorg-x11-7.0-r1</name>
++        <!-- The Title that is presented to the user -->
++        <title>Configuration File for X</title>
++        <!-- The meta can be used to give informations that are optional like email of dev, credits, bugzilla location ... -->
++        <meta name="" value=""/> <!-- as much as you like -->
++        <!-- The next 3 lines will help us to find all config files of this configuration in the system and find the one that is active -->
++        <names>xorg.conf.$HOSTNAME;xorg.conf-4;xorg.conf;$XORGCONFIG;XF86Config-4;XF86Config</names><!-- imported from the GCM xorg.conf recipe file (in order of precedence) -->
++        <locations>/etc/X11/;/usr/etc/X11/;/;$HOME/;/etc/;/usr/lib/X11/</locations><!-- imported from the GCM xorg.conf recipe file (in order of precedence) -->
++        <perusrlocation>$HOME;$HOME/.X11/</per_usr_location><!-- imported from the GCM xorg.conf recipe file (in order of precedence) -->
++        <!-- Sanity check to help us catching errors by configure the wrong versions with the right values -->
++        <configdepend>>x11-base/xorg-x11-7.0-r1;!=x11-base/xorg-x11-7.0-r2;<x11-base/xorg-x11-7.0-r2</config_depend><!-- >, =, < and != can be used to mask packages -->
++                <!-- ATTENTION: we need to find a way to make this independent of the package manager set in the gcm.conf!!! the above is gentoo syntax -->
++        <!-- The command used to activate the a changed configuration (no reboot is not a option on linux exept for the kernel it self ;) )  -->
+         <activate>/etc/init.d/xdm restart</activate>
+-
+-        <!-- <sections>ServerLayout; This belongs in to the GCM xorg.conf recipe file!
+-                  Files;
+-                  Module;
+-                  InputDevice; 
+-                  Monitor;
+-                  Device;
+-                  Screen;
+-                  DRI</sections> -->
+-
+-        <section name="ServerLayout"> <!-- Sections are optional (depending on configuration typ) -->
++        <!-- Some configuration files have sections so we need to have them too
++        for maximum flexibility sections can have all the things a key has but
++        they can be used to mirror tree like configuration files -->
++        <section name="ServerLayout" id="0"> <!-- Sections are optional (depending on configuration typ) -->
++                <!-- Keys overwrite the rights of a section it would be a good option to have a recursive "set rights on section" function
++                the type property is importand for programms that like to use GCM direct to store there config
++                would it be a good choice to move the rights management out of the key properties so I can comment on them with out a syntax error? -->
+                 <key basename="Identifier"
+                      type="ASCII string"
+                      length_unit="characters"
+@@ -55,32 +79,39 @@
+                      b_w_users="luser1"
+                      b_r_groups="lusers" <!-- blacklist groups -->
+                      b_w_groups="lusers">
+-                        <doku>
++                        <docu>
+                                 <link uri="/usr/share/man/man5/xorg.conf.5x.gz" openwith="man" lang="">xorg.conf Manpage</link>
+                                 <tooltip lang="en">This value does not realy matter ;)</tooltip>
+                                 <comment lang="en"></comment>
+                                 <usercomment lang="en">I like to call this X</usercomment>
+-                        </doku>
++                        </docu>
+ 
+-                        <meta name="" value=""/> <!-- as much as you like-->
++                        <meta name="" value=""/> <!-- as much as you like -->
+                         <meta name="" value=""/>
+                         <meta name="" value=""/>
+ 
+-                        <defaultvalue active="yes">Configured Xorg Server</defaultvalue> 
+-                        <value type="ASCII string" <!-- a key can have more then one value block.
+-                                                        The values are separated with a char or string defined in the recipe XML.
+-                                                        If no attributes are given the global of the key are used. -->
++                        <defaultvalue active="yes" ids="1" /> 
++                        <!-- a key can have more then one value block marked as active.
++                        The values are separated with a char or string defined in the recipe XML.
++                        If no attributes are given the globals of the key are used. -->
++                        <value type="ASCII string"
+                      	       length_unit="characters"
+                                min_length="1"
+-                               max_length="32"></value>
+-                        <value></value>
+-	                        <doku>
++                               max_length="32"
++                               id="0"
++                               index="20"></value>
++                        <!-- The index property is used to define the order of the keys (they are relative not absolut)
++                        IDs are used to address a key or section internal in the format of 0.2 for this one
++                        this requires that IDs are unique inside of a section or key -->
++                        <value id="1" index="10">Configured Xorg Server</value>
++	                        <!-- Docu with out a id property is docu about the key or section it self else it is about value with the matching number property-->
++	                        <docu id="1">
+ 	                                <link uri="/usr/share/man/man5/xorg.conf.5x.gz" openwith="man" lang="">xorg.conf Manpage</link>
+ 	                                <tooltip lang="">This value does not realy matter ;)</tooltip>
+ 	                                <comment lang=""></comment>
++	                                <configcomment></configcomment><!-- comment from the original configuration file -->
+ 	                                <usercomment lang="">I like to call this X</usercomment>
+-	                        </doku>
+-                        <value></value>
++	                        </docu>
+                 </key>
+         </section>
+ 
+
+
+
+From slalomsk8er at mail.berlios.de  Mon Aug 28 20:13:42 2006
+From: slalomsk8er at mail.berlios.de (slalomsk8er at BerliOS)
+Date: Mon, 28 Aug 2006 20:13:42 +0200
+Subject: [Gcm-svn] r5 - trunk/concept
+Message-ID: <200608281813.k7SIDgc6001531@sheep.berlios.de>
+
+Author: slalomsk8er
+Date: 2006-08-28 20:13:40 +0200 (Mon, 28 Aug 2006)
+New Revision: 5
+
+Added:
+   trunk/concept/xorg.recipe.xml
+Log:
+more work on the xml
+
+Added: trunk/concept/xorg.recipe.xml
+===================================================================
+--- trunk/concept/xorg.recipe.xml	2006-08-28 18:08:35 UTC (rev 4)
++++ trunk/concept/xorg.recipe.xml	2006-08-28 18:13:40 UTC (rev 5)
+@@ -0,0 +1,110 @@
++<?xml version="1.0" encoding="UTF-8"?>
++
++<!-- This file is part of the GNU Config Management projekt.
++It is a draft of the recipe file with the xorg.conf as example.
++
++Recipe files are needed to allow a more generic parser and give 
++information for sanity checks, possible values of a key or section
++plus here is the location of the the docu comments and links to
++externel docu resources. This files are relative static compared to the
++internals.xml as there is no "normal" user expected to work with them.
++
++It is a goal to merge this information in to the actual configuration
++file of a programm if the user or distributor likes it that way.
++Motivation of this is that the additional information like docu and URLs
++can be found inside the configuration file a user is editing.
++I hope this makes it easy for devs to play with the gcm recipe
++information and then export it to a xyz.gcm.xml for distribution.
++
++
++Copyright (C) 2006  Dominik Riva
++
++This library is free software; you can redistribute it and/or
++modify it under the terms of the GNU Lesser General Public
++License as published by the Free Software Foundation; either
++version 2.1 of the License, or (at your option) any later version.
++
++This library is distributed in the hope that it will be useful,
++but WITHOUT ANY WARRANTY; without even the implied warranty of
++MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++Lesser General Public License for more details.
++
++You should have received a copy of the GNU Lesser General Public
++License along with this library; if not, write to the Free Software
++Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA -->
++
++<recipe xmlns="http://gcm.berlios.de/recipe"
++               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
++               xsi:schemaLocation="http://gcm.berlios.de/recipe 
++                                   http://gcm.berlios.de/recipe.xsd">
++
++        <!-- The Identifier of this keyset -->
++        <name>xorg-x11-7.0-r1</name>
++        <!-- The Title that is presented to the user -->
++        <title>Configuration File for X</title>
++        <!-- The meta can be used to give informations that are optional like email of dev, credits, bugzilla location ... -->
++        <meta key="" value="" /> <!-- as much as you like -->
++        <!-- The next 3 lines will help us to find all config files of this configuration in the system and find the one that is active -->
++        <names>xorg.conf.$HOSTNAME;xorg.conf-4;xorg.conf;$XORGCONFIG;XF86Config-4;XF86Config</names><!-- "self" if the programm uses GCM direct to store it's config (in order of precedence) -->
++        <locations>/etc/X11/;/usr/etc/X11/;/;$HOME/;/etc/;/usr/lib/X11/</locations><!-- not needed if names has the value of "self" (in order of precedence) -->
++        <perusrlocation>$HOME;$HOME/.X11/</per_usr_location><!-- imported from the GCM xorg.conf recipe file (in order of precedence) -->
++        <!-- Sanity check to help us catching errors by configure the wrong versions with the right values -->
++        <configdepend>>x11-base/xorg-x11-7.0-r1;!=x11-base/xorg-x11-7.0-r2;<x11-base/xorg-x11-7.0-r2</config_depend><!-- >, =, < and != can be used to mask packages -->
++                <!-- ATTENTION: we need to find a way to make this independent of the package manager set in the gcm.conf!!! the above is gentoo syntax -->
++        <!-- The command used to activate the a changed configuration (no reboot is not a option on linux exept for the kernel it self ;) )  -->
++        <activate>/etc/init.d/xdm restart</activate>
++        <!-- There can be more then one sections block -->
++        <sections importance="required">ServerLayout;Files;Module;InputDevice;Monitor;Device;Screen;DRI</sections>
++        <!-- This is the way to define the dependencies of a section -->
++        <!-- index == default order
++        levels == can or must it be in a section or not or both -->
++        <section name="ServerLayout" id="0"
++                index="0"
++                levels="0"
++                depends_on="section.badexample"
++                type="ASCII string"
++                length_unit="characters"
++                min_length="1"
++                max_length="32">
++                <requires name="Identifier" type="key" />
++                <requires name="Screen" type="key" />
++                <requires name="InputDevice" type="key" />
++                <requires regex="" /> <!-- a mighty tool if implemented but not intuitive but this is for devs not users so who cares ;) -->
++                <illegal type="section" /> <!-- can be used to prevent common mistakes (a more spesivic <requires> will overwrite this the same level needs to rise a error)-->
++                <illegal regex="" />
++                <illegal name="Monitor" type="key" />
++                <docu>
++	               <link uri="/usr/share/man/man5/xorg.conf.5x.gz" openwith="man" lang="">xorg.conf Manpage</link>
++	               <tooltip lang="">This value does not realy matter ;)</tooltip>
++	               <comment lang=""></comment>
++	        </docu>
++        </section>
++        <!-- how to handle more then one key with the same name in a config file (can happen in configs with sections)?
++        if a config has more then one key with the same name but not the same patern they are insane ;) -->
++        <key name="Screen"
++                index="0"
++                levels="1"
++                depends_on="section.Screen"
++                type="ASCII string"
++                length_unit="characters"
++                min_length="1"
++                max_length="32">
++                <requires value_contains="section.Screen.Identifier" /> <!-- value[_contains|_smaller|_equals|_greater]-->
++                <requires regex="" /> <!-- check for legal email or ip address formats and the likes -->
++                <illegal regex="" />
++                <docu>
++	               <link uri="/usr/share/man/man5/xorg.conf.5x.gz" openwith="man" lang="">xorg.conf Manpage</link>
++	               <tooltip lang="">This value does not realy matter ;)</tooltip>
++	               <comment lang=""></comment>
++	        </docu>
++	        <defaultvalue ids="0" />
++	        <value id="0">my screen</value>
++		        <docu id="0">
++		               <link uri="/usr/share/man/man5/xorg.conf.5x.gz" openwith="man" lang="">xorg.conf Manpage</link>
++		               <tooltip lang="">This value does not realy matter ;)</tooltip>
++		               <comment lang=""></comment>
++		        </docu>
++        </key>
++        
++        <parse></parse>
++</recipe>
+
+
+

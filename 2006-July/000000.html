@@ -1,0 +1,156 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+ <HEAD>
+   <TITLE> [Gcm-svn] r2 - trunk/concept
+   </TITLE>
+   <LINK REL="Index" HREF="http://lists.berlios.de/pipermail/gcm-svn/2006-July/index.html" >
+   <LINK REL="made" HREF="mailto:gcm-svn%40lists.berlios.de?Subject=Re%3A%20%5BGcm-svn%5D%20r2%20-%20trunk/concept&In-Reply-To=%3C200607191058.k6JAw2Mj031026%40sheep.berlios.de%3E">
+   <META NAME="robots" CONTENT="index,nofollow">
+   <style type="text/css">
+       pre {
+           white-space: pre-wrap;       /* css-2.1, curent FF, Opera, Safari */
+           }
+   </style>
+   <META http-equiv="Content-Type" content="text/html; charset=us-ascii">
+   
+   
+ </HEAD>
+ <BODY BGCOLOR="#ffffff">
+   <H1>[Gcm-svn] r2 - trunk/concept</H1>
+    <B>slalomsk8er at BerliOS</B> 
+    <A HREF="mailto:gcm-svn%40lists.berlios.de?Subject=Re%3A%20%5BGcm-svn%5D%20r2%20-%20trunk/concept&In-Reply-To=%3C200607191058.k6JAw2Mj031026%40sheep.berlios.de%3E"
+       TITLE="[Gcm-svn] r2 - trunk/concept">slalomsk8er at mail.berlios.de
+       </A><BR>
+    <I>Wed Jul 19 12:58:02 CEST 2006</I>
+    <P><UL>
+        
+        
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#0">[ date ]</a>
+              <a href="thread.html#0">[ thread ]</a>
+              <a href="subject.html#0">[ subject ]</a>
+              <a href="author.html#0">[ author ]</a>
+         </LI>
+       </UL>
+    <HR>  
+<!--beginarticle-->
+<PRE>Author: slalomsk8er
+Date: 2006-07-19 12:58:00 +0200 (Wed, 19 Jul 2006)
+New Revision: 2
+
+Added:
+   trunk/concept/internals.xml
+Log:
+
+
+Added: trunk/concept/internals.xml
+===================================================================
+--- trunk/concept/internals.xml	2006-06-19 19:22:58 UTC (rev 1)
++++ trunk/concept/internals.xml	2006-07-19 10:58:00 UTC (rev 2)
+@@ -0,0 +1,84 @@
++&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
++
++&lt;!-- This file is part of the GNU Config Management projekt and defines the abstract internal data structure.
++Copyright (C) 2006  Dominik Riva
++
++This library is free software; you can redistribute it and/or
++modify it under the terms of the GNU Lesser General Public
++License as published by the Free Software Foundation; either
++version 2.1 of the License, or (at your option) any later version.
++
++This library is distributed in the hope that it will be useful,
++but WITHOUT ANY WARRANTY; without even the implied warranty of
++MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++Lesser General Public License for more details.
++
++You should have received a copy of the GNU Lesser General Public
++License along with this library; if not, write to the Free Software
++Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA --&gt;
++
++&lt;configuration xmlns=&quot;<A HREF="http://gcm.berlios.de/configuration">http://gcm.berlios.de/configuration</A>&quot;
++               xmlns:xsi=&quot;<A HREF="http://www.w3.org/2001/XMLSchema-instance">http://www.w3.org/2001/XMLSchema-instance</A>&quot;
++               xsi:schemaLocation=&quot;<A HREF="http://gcm.berlios.de/configuration">http://gcm.berlios.de/configuration</A> 
++                                   <A HREF="http://gcm.berlios.de/configuration.xsd">http://gcm.berlios.de/configuration.xsd</A>&quot;&gt;
++
++        &lt;locations&gt;/xorg.conf;/etc/xorg.conf;/etc/X11/xorg.conf&lt;/locations&gt;
++
++        &lt;config_depend&gt;&lt;!-- installed XServer and or higher order config (Apache has this) --&gt;&lt;/config_depend&gt;
++
++        &lt;!-- &lt;sections&gt;ServerLayout; This belongs in to the GCM xorg.conf recipe file!
++                  Files;
++                  Module;
++                  InputDevice; 
++                  Monitor;
++                  Device;
++                  Screen;
++                  DRI&lt;/sections&gt; --&gt;
++
++        &lt;section name=&quot;ServerLayout&quot;&gt; &lt;!-- Sections are optional (depending on configuration typ) --&gt;
++                &lt;key basename=&quot;Identifier&quot;
++                     type=&quot;ASCII string&quot;
++                     length_unit=&quot;characters&quot;
++                     min_length=&quot;1&quot;
++                     max_length=&quot;32&quot; 
++                     uid=&quot;root&quot; &lt;!-- inherited from the rights of the file --&gt;
++                     gid=&quot;root&quot;
++                     mode=&quot;rw-rw-r--&quot;
++                     r_users=&quot;root;checker&quot; &lt;!-- fine grained access rights --&gt;
++                     w_users=&quot;root;checker&quot;
++                     r_groups=&quot;root;xadmin&quot;
++                     w_groups=&quot;root&quot;
++                     b_r_users=&quot;luser1&quot; &lt;!-- blacklist users --&gt;
++                     b_w_users=&quot;luser1&quot;
++                     b_r_groups=&quot;lusers&quot; &lt;!-- blacklist groups --&gt;
++                     b_w_groups=&quot;lusers&quot;&gt;
++                        &lt;doku&gt;
++                                &lt;link uri=&quot;/usr/share/man/man5/xorg.conf.5x.gz&quot; openwith=&quot;man&quot; lang=&quot;&quot;&gt;xorg.conf Manpage&lt;/link&gt;
++                                &lt;tooltip lang=&quot;&quot;&gt;This value does not realy matter ;)&lt;/tooltip&gt;
++                                &lt;comment lang=&quot;&quot;&gt;&lt;/comment&gt;
++                                &lt;usercomment lang=&quot;&quot;&gt;I like to call this X&lt;/usercomment&gt;
++                        &lt;/doku&gt;
++
++                        &lt;meta name=&quot;&quot; value=&quot;&quot;/&gt; &lt;!-- as much as you like--&gt;
++                        &lt;meta name=&quot;&quot; value=&quot;&quot;/&gt;
++                        &lt;meta name=&quot;&quot; value=&quot;&quot;/&gt;
++
++                        &lt;defaultvalue active=&quot;yes&quot;&gt;Configured Xorg Server&lt;/defaultvalue&gt; 
++                        &lt;value type=&quot;ASCII string&quot; &lt;!-- a key can have more then one value block.
++                                                        The values are separated with a char or string defined in the recipe XML.
++                                                        If no attributes are given the global of the key are used. --&gt;
++                     	       length_unit=&quot;characters&quot;
++                               min_length=&quot;1&quot;
++                               max_length=&quot;32&quot;&gt;&lt;/value&gt;
++                        &lt;value&gt;&lt;/value&gt;
++	                        &lt;doku&gt;
++	                                &lt;link uri=&quot;/usr/share/man/man5/xorg.conf.5x.gz&quot; openwith=&quot;man&quot; lang=&quot;&quot;&gt;xorg.conf Manpage&lt;/link&gt;
++	                                &lt;tooltip lang=&quot;&quot;&gt;This value does not realy matter ;)&lt;/tooltip&gt;
++	                                &lt;comment lang=&quot;&quot;&gt;&lt;/comment&gt;
++	                                &lt;usercomment lang=&quot;&quot;&gt;I like to call this X&lt;/usercomment&gt;
++	                        &lt;/doku&gt;
++                        &lt;value&gt;&lt;/value&gt;
++                &lt;/key&gt;
++        &lt;/section&gt;
++
++&lt;/configuration&gt;
+
+
+</PRE>
+
+<!--endarticle-->
+    <HR>
+    <P><UL>
+        <!--threads-->
+	
+	
+         <LI> <B>Messages sorted by:</B> 
+              <a href="date.html#0">[ date ]</a>
+              <a href="thread.html#0">[ thread ]</a>
+              <a href="subject.html#0">[ subject ]</a>
+              <a href="author.html#0">[ author ]</a>
+         </LI>
+       </UL>
+
+<hr>
+<a href="https://lists.berlios.de/mailman/listinfo/gcm-svn">More information about the Gcm-svn
+mailing list</a><br>
+</body></html>
